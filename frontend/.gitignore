@@ -1,0 +1,34 @@
+# Flutter
+.dart_tool/
+.idea/
+.vscode/
+build/
+pubspec.lock
+*.iml
+*.lock
+
+# Firebase
+google-services.json
+GoogleService-Info.plist
+
+# Environment
+.env
+*.env
+
+# Android
+android/.gradle/
+android/local.properties
+
+# iOS
+ios/Pods/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+
+# Web
+web/
+
+# Mac
+macos/
+
+# Windows
+windows/
