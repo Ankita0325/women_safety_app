@@ -1,0 +1,139 @@
+Running Gradle task 'assembleDebug'...                          
+Checking the license for package Android SDK Platform 33 in C:\Users\loq\AppData\Local\Android\Sdk\licenses
+License for package Android SDK Platform 33 accepted.
+Preparing "Install Android SDK Platform 33 (revision 3)".
+"Install Android SDK Platform 33 (revision 3)" ready.
+Installing Android SDK Platform 33 in C:\Users\loq\AppData\Local\Android\Sdk\platforms\android-33
+"Install Android SDK Platform 33 (revision 3)" complete.
+"Install Android SDK Platform 33 (revision 3)" finished.
+[=========                              ] 25%                                   
+Checking the license for package Android SDK Platform 35 in C:\Users\loq\AppData\Local\Android\Sdk\licenses
+License for package Android SDK Platform 35 accepted.
+Preparing "Install Android SDK Platform 35 (revision 2)".
+"Install Android SDK Platform 35 (revision 2)" ready.
+Installing Android SDK Platform 35 in C:\Users\loq\AppData\Local\Android\Sdk\platforms\android-35
+"Install Android SDK Platform 35 (revision 2)" complete.
+"Install Android SDK Platform 35 (revision 2)" finished.
+[=========                              ] 25%                                   
+Running Gradle task 'assembleDebug'...                            116.3s
+WARNING: Your app uses the following plugins that apply Kotlin Gradle Plugin (KGP): device_info_plus, flutter_phone_direct_caller, location, record_android, speech_to_text
+Future versions of Flutter will fail to build if your app uses plugins that apply KGP.
+
+Please check the changelogs of these plugins and upgrade to a version that supports Built-in Kotlin.
+If no such version exists, report the issue to the plugin. If necessary, here is a guide on filing 
+an issue against a plugin: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-app-developers#report-incompatible-kotlin-gradle-plugin-usage-to-plugin-authors
+
+If you are a plugin author, please migrate your plugin to Built-in Kotlin using this guide: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+lib/main.dart:14:8: Error: Error when reading 'lib/screens/splash_screen.dart': The system cannot find the path specified
+import 'screens/splash_screen.dart';
+       ^
+lib/main.dart:15:8: Error: Error when reading 'lib/screens/home_screen.dart': The system cannot find the path specified
+import 'screens/home_screen.dart';
+       ^
+lib/main.dart:16:8: Error: Error when reading 'lib/screens/login_screen.dart': The system cannot find the path specified
+import 'screens/login_screen.dart';
+       ^
+lib/main.dart:17:8: Error: Error when reading 'lib/screens/register_screen.dart': The system cannot find the path specified
+import 'screens/register_screen.dart';
+       ^
+lib/main.dart:18:8: Error: Error when reading 'lib/screens/emergency_screen.dart': The system cannot find the path specified
+import 'screens/emergency_screen.dart';
+       ^
+lib/main.dart:19:8: Error: Error when reading 'lib/screens/heatmap_screen.dart': The system cannot find the path specified
+import 'screens/heatmap_screen.dart';
+       ^
+lib/main.dart:20:8: Error: Error when reading 'lib/screens/route_screen.dart': The system cannot find the path specified
+import 'screens/route_screen.dart';
+       ^
+lib/main.dart:21:8: Error: Error when reading 'lib/screens/community_screen.dart': The system cannot find the path specified
+import 'screens/community_screen.dart';
+       ^
+lib/main.dart:22:8: Error: Error when reading 'lib/screens/support_screen.dart': The system cannot find the path specified
+import 'screens/support_screen.dart';
+       ^
+lib/main.dart:23:8: Error: Error when reading 'lib/screens/profile_screen.dart': The system cannot find the path specified
+import 'screens/profile_screen.dart';
+       ^
+/C:/Users/loq/AppData/Local/Pub/Cache/hosted/pub.dev/record_linux-0.7.2/lib/record_linux.dart:12:7: Error: The non-abstract class 'RecordLinux' is missing implementations for these members:
+ - RecordMethodChannelPlatformInterface.startStream
+Try to either
+ - provide an implementation,
+ - inherit an implementation from a superclass or mixin,
+ - mark the class as abstract, or
+ - provide a 'noSuchMethod' implementation.
+class RecordLinux extends RecordPlatform {
+      ^^^^^^^^^^^
+/C:/Users/loq/AppData/Local/Pub/Cache/hosted/pub.dev/record_platform_interface-1.6.0/lib/src/record_platform_interface.dart:46:29: Context: 'RecordMethodChannelPlatformInterface.startStream' is defined here.
+  Future<Stream<Uint8List>> startStream(String recorderId, RecordConfig config);
+                            ^^^^^^^^^^^
+/C:/Users/loq/AppData/Local/Pub/Cache/hosted/pub.dev/record_linux-0.7.2/lib/record_linux.dart:36:16: Error: The method 'RecordLinux.hasPermission' has fewer named arguments than those of overridden method 'RecordMethodChannelPlatformInterface.hasPermission'.
+  Future<bool> hasPermission(String recorderId) {
+               ^
+/C:/Users/loq/AppData/Local/Pub/Cache/hosted/pub.dev/record_platform_interface-1.6.0/lib/src/record_platform_interface.dart:74:16: Context: This is the overridden method ('hasPermission').
+  Future<bool> hasPermission(String recorderId, {bool request = true});
+               ^
+lib/main.dart:64:35: Error: Not a constant expression.
+          '/': (context) => const SplashScreen(),
+                                  ^^^^^^^^^^^^
+lib/main.dart:65:39: Error: Not a constant expression.
+          '/home': (context) => const HomeScreen(),
+                                      ^^^^^^^^^^
+lib/main.dart:66:40: Error: Not a constant expression.
+          '/login': (context) => const LoginScreen(),
+                                       ^^^^^^^^^^^
+lib/main.dart:67:43: Error: Not a constant expression.
+          '/register': (context) => const RegisterScreen(),
+                                          ^^^^^^^^^^^^^^
+lib/main.dart:68:44: Error: Not a constant expression.
+          '/emergency': (context) => const EmergencyScreen(),
+                                           ^^^^^^^^^^^^^^^
+lib/main.dart:69:42: Error: Not a constant expression.
+          '/heatmap': (context) => const HeatmapScreen(),
+                                         ^^^^^^^^^^^^^
+lib/main.dart:70:40: Error: Not a constant expression.
+          '/route': (context) => const RouteScreen(),
+                                       ^^^^^^^^^^^
+lib/main.dart:71:44: Error: Not a constant expression.
+          '/community': (context) => const CommunityScreen(),
+                                           ^^^^^^^^^^^^^^^
+lib/main.dart:72:42: Error: Not a constant expression.
+          '/support': (context) => const SupportScreen(),
+                                         ^^^^^^^^^^^^^
+lib/main.dart:73:42: Error: Not a constant expression.
+          '/profile': (context) => const ProfileScreen(),
+                                         ^^^^^^^^^^^^^
+lib/services/location_service.dart:47:26: Error: 'LocationAccuracy' is imported from both 'package:geolocator_platform_interface/src/enums/location_accuracy.dart' and 'package:location_platform_interface/location_platform_interface.dart'.
+        desiredAccuracy: LocationAccuracy.high,
+                         ^^^^^^^^^^^^^^^^
+lib/services/sms_service.dart:40:40: Error: The getter 'AppConstants' isn't defined for the type 'SmsService'.
+ - 'SmsService' is from 'package:women_safety_app/services/sms_service.dart' ('lib/services/sms_service.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'AppConstants'.
+      final userName = prefs.getString(AppConstants.PREF_USER_NAME) ?? 'User';
+                                       ^^^^^^^^^^^^
+lib/utils/theme.dart:34:16: Error: The argument type 'CardTheme' can't be assigned to the parameter type 'CardThemeData?'.
+ - 'CardTheme' is from 'package:flutter/src/material/card_theme.dart' ('/C:/flutter/packages/flutter/lib/src/material/card_theme.dart').
+ - 'CardThemeData' is from 'package:flutter/src/material/card_theme.dart' ('/C:/flutter/packages/flutter/lib/src/material/card_theme.dart').
+    cardTheme: CardTheme(
+               ^
+lib/utils/theme.dart:71:16: Error: The argument type 'CardTheme' can't be assigned to the parameter type 'CardThemeData?'.
+ - 'CardTheme' is from 'package:flutter/src/material/card_theme.dart' ('/C:/flutter/packages/flutter/lib/src/material/card_theme.dart').
+ - 'CardThemeData' is from 'package:flutter/src/material/card_theme.dart' ('/C:/flutter/packages/flutter/lib/src/material/card_theme.dart').
+    cardTheme: CardTheme(
+               ^
+Target kernel_snapshot_program failed: Exception
+
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileFlutterBuildDebug'.
+> Process 'command 'C:\flutter\bin\flutter.bat'' finished with non-zero exit value 1
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (Powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 1m 55s
+Gradle task assembleDebug failed with exit code 1
