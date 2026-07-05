@@ -21,30 +21,37 @@ wheels/
 
 # Virtual environments
 venv/
-.env
 .venv/
+backend/venv/
+frontend/venv/
 env/
 env.bak/
 venv.bak/
 
-# IDE
+# Environment files
+.env
+backend/.env
+
+# Editor folders
+.kilo/
 .idea/
 .vscode/
-*.swp
-*.swo
+*.iml
 
 # Flutter/Dart
-**/doc/api/
-**/ios/Flutter/.last_build_id
 .dart_tool/
 .packages
 build/
 frontend/.dart_tool/
 frontend/build/
 
+# Android
+**/.gradle/
+**/local.properties
+
 # Firebase
 firebase-debug.log
 
-# OS files
+# OS
 .DS_Store
 Thumbs.db
