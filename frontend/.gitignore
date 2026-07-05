@@ -5,7 +5,7 @@
 build/
 pubspec.lock
 *.iml
-*.lock
+
 
 # Firebase
 google-services.json
@@ -24,11 +24,3 @@ ios/Pods/
 ios/Flutter/App.framework
 ios/Flutter/Flutter.framework
 
-# Web
-web/
-
-# Mac
-macos/
-
-# Windows
-windows/
