@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 class HeatmapScreen extends StatefulWidget {
   const HeatmapScreen({super.key});
@@ -9,10 +10,9 @@ class HeatmapScreen extends StatefulWidget {
 }
 
 class _HeatmapScreenState extends State<HeatmapScreen> {
-  GoogleMapController? _mapController;
-  final Set<Marker> _markers = {};
-  final Set<Circle> _circles = {};
-  LatLng _currentLocation = const LatLng(19.0760, 72.8777);
+  final List<Marker> _markers = [];
+  final List<CircleMarker> _circles = [];
+  final LatLng _currentLocation = const LatLng(19.0760, 72.8777);
 
   @override
   void initState() {
@@ -35,27 +35,20 @@ class _HeatmapScreenState extends State<HeatmapScreen> {
 
       _markers.add(
         Marker(
-          markerId: MarkerId('${lat}_$lng'),
-          position: LatLng(lat, lng),
-          icon: BitmapDescriptor.defaultMarkerWithHue(
-            risk == 'high'
-                ? BitmapDescriptor.hueRed
-                : BitmapDescriptor.hueOrange,
-          ),
-          infoWindow: InfoWindow(title: 'Unsafe Area', snippet: 'Risk: $risk'),
+          point: LatLng(lat, lng),
+          child: const Icon(Icons.warning, color: Colors.red),
         ),
       );
 
       _circles.add(
-        Circle(
-          circleId: CircleId('circle_${lat}_$lng'),
-          center: LatLng(lat, lng),
+        CircleMarker(
+          point: LatLng(lat, lng),
           radius: risk == 'high' ? 200 : 150,
-          fillColor: risk == 'high'
+          color: risk == 'high'
               ? Colors.red.withValues(alpha: 0.3)
               : Colors.orange.withValues(alpha: 0.3),
-          strokeColor: risk == 'high' ? Colors.red : Colors.orange,
-          strokeWidth: 2,
+          borderColor: risk == 'high' ? Colors.red : Colors.orange,
+          borderStrokeWidth: 2,
         ),
       );
     }
@@ -75,25 +68,24 @@ class _HeatmapScreenState extends State<HeatmapScreen> {
           ),
         ],
       ),
-      body: GoogleMap(
-        onMapCreated: (controller) {
-          _mapController = controller;
-        },
-        initialCameraPosition: CameraPosition(
-          target: _currentLocation,
-          zoom: 12,
+      body: FlutterMap(
+        options: MapOptions(
+          initialCenter: _currentLocation,
+          initialZoom: 12,
         ),
-        markers: _markers,
-        circles: _circles,
-        myLocationEnabled: true,
-        myLocationButtonEnabled: false,
+        children: [
+          TileLayer(
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            userAgentPackageName: 'com.womensafety.women_safety_app',
+          ),
+          MarkerLayer(markers: _markers),
+          CircleLayer(circles: _circles),
+        ],
       ),
     );
   }
 
   void _centerOnCurrentLocation() {
-    _mapController?.animateCamera(
-      CameraUpdate.newLatLngZoom(_currentLocation, 14),
-    );
+    // Map automatically centers on initialCenter
   }
 }

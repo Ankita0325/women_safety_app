@@ -29,7 +29,7 @@ class EmergencyService extends ChangeNotifier {
 
     try {
       // Get current location
-      final position = await _locationService.getCurrentLocation();
+      final position = await _locationService.getCurrentPosition();
       if (position == null) {
         throw Exception('Unable to get location');
       }
