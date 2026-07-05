@@ -18,20 +18,20 @@ class ApiService {
     _authToken = token;
     _headers['Authorization'] = 'Bearer $token';
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('auth_token', token);
+    await prefs.setString(AppConstants.PREF_AUTH_TOKEN, token);
   }
 
   Future<String?> getAuthToken() async {
     if (_authToken != null) return _authToken;
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('auth_token');
+    return prefs.getString(AppConstants.PREF_AUTH_TOKEN);
   }
 
   Future<void> clearAuthToken() async {
     _authToken = null;
     _headers.remove('Authorization');
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('auth_token');
+    await prefs.remove(AppConstants.PREF_AUTH_TOKEN);
   }
 
   Future<Map<String, dynamic>> get(String endpoint) async {
