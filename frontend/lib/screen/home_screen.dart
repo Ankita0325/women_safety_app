@@ -4,7 +4,7 @@ import '../services/auth_service.dart';
 import '../widgets/animated_bottom_nav_bar.dart';
 import 'route_screen.dart';
 import 'emergency_screen.dart';
-import 'support_screen.dart';
+import 'community_screen.dart';
 import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const HomeContent(),
     const RouteScreen(),
     const EmergencyScreen(),
-    const SupportScreen(),
+    const CommunityScreen(),
     const ProfileScreen(),
   ];
 
@@ -71,7 +71,7 @@ class HomeContent extends StatelessWidget {
           'Women Safety App',
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
-        backgroundColor: const Color(0xFFFF4081),
+        backgroundColor: const Color(0xFF7C3AED),
         foregroundColor: Colors.white,
         elevation: 0,
         actions: [
@@ -100,7 +100,7 @@ class HomeContent extends StatelessWidget {
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Color(0xFFFF4081), Color(0xFF9C27B0)],
+                    colors: [Color(0xFF7C3AED), Color(0xFFEC4899)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -121,7 +121,7 @@ class HomeContent extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFFFF4081),
+                              color: Color(0xFF7C3AED),
                             ),
                           ),
                         ),
@@ -223,10 +223,10 @@ class HomeContent extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFF4081).withOpacity(0.05),
+                  color: const Color(0xFF7C3AED).withOpacity(0.05),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: const Color(0xFFFF4081).withOpacity(0.2),
+                    color: const Color(0xFF7C3AED).withOpacity(0.2),
                   ),
                 ),
                 child: Column(
@@ -352,12 +352,12 @@ class HomeContent extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: const Color(0xFFFF4081).withOpacity(0.1),
+              color: const Color(0xFFEC4899).withOpacity(0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
               icon,
-              color: const Color(0xFFFF4081),
+              color: const Color(0xFFEC4899),
               size: 20,
             ),
           ),

@@ -1,0 +1,6 @@
+2026-07-06 21:27:36,164 - app.services.firebase_service - WARNING - Firebase credentials not found at firebase/serviceAccountKey.json. Running in SQLite Mock mode.
+2026-07-06 21:27:36,257 - app.services.firebase_service - INFO - Local SQLite database initialized successfully for Mock mode
+2026-07-06 21:27:36,279 - app.services.ai_service - INFO - AI Service initialized successfully
+2026-07-06 21:27:36,312 - app.services.ai_service - INFO - AI Service initialized successfully
+2026-07-06 21:27:36,345 - app.services.ai_service - INFO - AI Service initialized successfully
+2026-07-06 21:27:36,444 - app.services.ai_service - INFO - AI Service initialized successfully

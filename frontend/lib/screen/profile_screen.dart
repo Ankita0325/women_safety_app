@@ -23,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           'Profile',
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
-        backgroundColor: const Color(0xFFFF4081),
+        backgroundColor: const Color(0xFF7C3AED),
         foregroundColor: Colors.white,
         elevation: 0,
       ),
@@ -37,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [Color(0xFFFF4081), Color(0xFFC2185B)],
+                  colors: [Color(0xFF7C3AED), Color(0xFFEC4899)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -55,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       style: const TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFFFF4081),
+                        color: Color(0xFF7C3AED),
                       ),
                     ),
                   ),
@@ -181,6 +181,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     },
                   ),
                   const Divider(height: 1),
+                  SwitchListTile(
+                    secondary: const Icon(Icons.developer_mode, color: Color(0xFFEC4899)),
+                    title: const Text('Mock Backend Mode'),
+                    subtitle: const Text('Bypass FastAPI for offline presentation'),
+                    value: authService.useMockBackend,
+                    activeColor: const Color(0xFFEC4899),
+                    onChanged: (bool value) {
+                      authService.toggleBackendMode(value);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(value ? 'Mock Backend Mode Enabled' : 'Real Backend Mode Enabled'),
+                          backgroundColor: value ? Colors.orange : Colors.green,
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    },
+                  ),
+                  const Divider(height: 1),
                   _buildMenuItem(
                     icon: Icons.help,
                     title: 'Help & Support',
@@ -242,7 +260,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     required VoidCallback onTap,
   }) {
     return ListTile(
-      leading: Icon(icon, color: const Color(0xFFFF4081)),
+      leading: Icon(icon, color: const Color(0xFF7C3AED)),
       title: Text(
         title,
         style: const TextStyle(fontWeight: FontWeight.w500),
@@ -305,7 +323,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Icon(
               Icons.shield,
               size: 64,
-              color: Color(0xFFFF4081),
+              color: Color(0xFFEC4899),
             ),
             SizedBox(height: 16),
             Text(

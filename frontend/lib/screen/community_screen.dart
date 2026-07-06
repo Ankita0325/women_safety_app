@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
+import '../services/api_service.dart';
 
 class CommunityScreen extends StatefulWidget {
   const CommunityScreen({super.key});
@@ -10,9 +11,11 @@ class CommunityScreen extends StatefulWidget {
 }
 
 class _CommunityScreenState extends State<CommunityScreen> {
+  final ApiService _apiService = ApiService();
   final TextEditingController _reportController = TextEditingController();
   String _selectedIncidentType = 'Harassment';
   bool _isAnonymous = true;
+  bool _isLoading = false;
   List<Map<String, dynamic>> _reports = [];
 
   final List<String> _incidentTypes = [
@@ -34,7 +37,43 @@ class _CommunityScreenState extends State<CommunityScreen> {
     _loadReports();
   }
 
-  void _loadReports() {
+  Future<void> _loadReports() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final response = await _apiService.get(
+        '/reports/incidents?lat=19.0760&lng=72.8777&radius=10&limit=50',
+      );
+      final data = response['incidents'] as List?;
+      if (data != null) {
+        if (!mounted) return;
+        setState(() {
+          _reports = data.map((e) {
+            return {
+              'id': e['id'] ?? e['_id'] ?? 'unknown',
+              'type': e['incident_type'] ?? 'General',
+              'description': e['description'] ?? '',
+              'location': e['address'] ?? 'Unknown Location',
+              'timestamp': DateTime.tryParse(e['timestamp'] ?? '') ?? DateTime.now(),
+              'anonymous': e['is_anonymous'] ?? true,
+              'severity': e['severity'] ?? 'medium',
+            };
+          }).toList();
+        });
+        return;
+      }
+    } catch (e) {
+      print('Error loading reports: $e');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+
     _reports = [
       {
         'id': '1',
@@ -55,7 +94,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
         'severity': 'high',
       },
     ];
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> _submitReport() async {
@@ -69,27 +110,60 @@ class _CommunityScreenState extends State<CommunityScreen> {
       return;
     }
 
-    final newReport = {
-      'id': DateTime.now().millisecondsSinceEpoch.toString(),
-      'type': _selectedIncidentType,
-      'description': _reportController.text,
-      'location': 'Current Location',
-      'timestamp': DateTime.now(),
-      'anonymous': _isAnonymous,
-      'severity': 'medium',
-    };
-
     setState(() {
-      _reports.insert(0, newReport);
+      _isLoading = true;
     });
 
-    _reportController.clear();
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Report submitted successfully!'),
-        backgroundColor: Colors.green,
-      ),
-    );
+    try {
+      await _apiService.post(
+        '/reports/incident',
+        body: {
+          'type': _selectedIncidentType,
+          'description': _reportController.text,
+          'latitude': 19.0760,
+          'longitude': 72.8777,
+          'address': 'Current Location',
+          'is_anonymous': _isAnonymous,
+          'images': [],
+        },
+      );
+
+      _reportController.clear();
+      await _loadReports();
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Report submitted successfully!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      print('Error submitting report: $e');
+      final newReport = {
+        'id': DateTime.now().millisecondsSinceEpoch.toString(),
+        'type': _selectedIncidentType,
+        'description': _reportController.text,
+        'location': 'Current Location',
+        'timestamp': DateTime.now(),
+        'anonymous': _isAnonymous,
+        'severity': 'medium',
+      };
+
+      setState(() {
+        _reports.insert(0, newReport);
+        _isLoading = false;
+      });
+      _reportController.clear();
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Offline: Report saved locally!'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+    }
   }
 
   @override

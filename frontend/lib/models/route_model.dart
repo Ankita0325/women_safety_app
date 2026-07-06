@@ -170,13 +170,25 @@ class SafeRoute {
 class RouteLatLng {
   final double latitude;
   final double longitude;
+  final int safetyScore;
+  final String riskLevel;
+  final String color;
 
-  RouteLatLng(this.latitude, this.longitude);
+  RouteLatLng(
+    this.latitude, 
+    this.longitude, {
+    this.safetyScore = 100,
+    this.riskLevel = 'Safe',
+    this.color = 'green',
+  });
 
   factory RouteLatLng.fromJson(Map<String, dynamic> json) {
     return RouteLatLng(
       (json['latitude'] ?? 0.0).toDouble(),
       (json['longitude'] ?? 0.0).toDouble(),
+      safetyScore: json['safety_score'] ?? 100,
+      riskLevel: json['risk_level'] ?? 'Safe',
+      color: json['color'] ?? 'green',
     );
   }
 
@@ -184,6 +196,9 @@ class RouteLatLng {
     return {
       'latitude': latitude,
       'longitude': longitude,
+      'safety_score': safetyScore,
+      'risk_level': riskLevel,
+      'color': color,
     };
   }
 

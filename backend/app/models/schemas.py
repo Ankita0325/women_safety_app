@@ -57,7 +57,16 @@ class IncidentReport(BaseModel):
     timestamp: datetime = Field(default_factory=datetime.now)
     is_anonymous: bool = True
     images: List[str] = []
-    severity: str = Field(default="medium", regex="^(low|medium|high)$")
+    severity: str = Field(default="medium", pattern="^(low|medium|high)$")
+    
+    # Heatmap integrations
+    status: Optional[str] = "pending"
+    upvotes: Optional[int] = 0
+    downvotes: Optional[int] = 0
+    expires_at: Optional[datetime] = None
+    category: Optional[str] = "Harassment"
+    safety_score: Optional[int] = 100
+    ai_analysis: Optional[Dict] = {}
 
 class EmergencyRequest(BaseModel):
     latitude: float = Field(..., ge=-90, le=90)
@@ -104,3 +113,8 @@ class ReportIncident(BaseModel):
     address: str
     is_anonymous: bool = True
     images: Optional[List[str]] = None
+    category: Optional[str] = "Harassment"
+
+class VoteRequest(BaseModel):
+    vote_type: str = Field(..., pattern="^(upvote|downvote)$")
+    user_id: Optional[str] = None
