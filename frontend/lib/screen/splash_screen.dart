@@ -1,5 +1,8 @@
+// lib/screen/splash_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../services/auth_service.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,15 +20,31 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _navigateToNext() async {
-    final authService = Provider.of<AuthService>(context, listen: false);
-    await authService.waitForInit();
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      final authService = Provider.of<AuthService>(context, listen: false);
+      await authService.waitForInit();
+      await Future.delayed(const Duration(seconds: 2));
 
-    if (mounted) {
-      if (authService.isAuthenticated) {
-        Navigator.pushReplacementNamed(context, '/home');
-      } else {
-        Navigator.pushReplacementNamed(context, '/login');
+      // Check if user has seen onboarding FIRST
+      final prefs = await SharedPreferences.getInstance();
+      bool hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
+
+      if (mounted) {
+        if (!hasSeenOnboarding) {
+          // First time user - show onboarding FIRST
+          Navigator.pushReplacementNamed(context, '/onboarding');
+        } else if (authService.isAuthenticated) {
+          // User has seen onboarding and is logged in
+          Navigator.pushReplacementNamed(context, '/home');
+        } else {
+          // User has seen onboarding but not logged in
+          Navigator.pushReplacementNamed(context, '/login');
+        }
+      }
+    } catch (e) {
+      // If anything fails, navigate to onboarding
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/onboarding');
       }
     }
   }
@@ -39,40 +58,40 @@ class _SplashScreenState extends State<SplashScreen> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFFFF4081),
-              Color(0xFFC2185B),
+              Color(0xFF0F172A),
+              Color(0xFF1E293B),
             ],
           ),
         ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Icon(
-                Icons.security,
+            children: [
+              const Icon(
+                Icons.security_rounded,
                 size: 80,
-                color: Colors.white,
+                color: Color(0xFF7C3AED),
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Women Safety',
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Color(0xFFFFFFFF),
                 ),
               ),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 'Your Safety Matters',
                 style: TextStyle(
                   fontSize: 18,
-                  color: Colors.white70,
+                  color: Color(0xFFCBD5E1),
                 ),
               ),
-              SizedBox(height: 40),
-              CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              const SizedBox(height: 40),
+              const CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF7C3AED)),
               ),
             ],
           ),
