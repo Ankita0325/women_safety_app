@@ -167,10 +167,16 @@ async def update_emergency_status(emergency_id: str, status: EmergencyStatus):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+from pydantic import BaseModel
+
+class VoiceDetectionRequest(BaseModel):
+    audio_text: str
+
 @router.post("/voice-detection")
-async def detect_emergency_voice(audio_text: str):
+async def detect_emergency_voice(payload: VoiceDetectionRequest):
     """Detect emergency keywords in audio"""
     try:
+        audio_text = payload.audio_text
         # Check for emergency keywords
         from app.utils.config import settings
         keywords = settings.EMERGENCY_KEYWORDS

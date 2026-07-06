@@ -15,6 +15,7 @@ class AuthService extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get error => _error;
   bool get isAuthenticated => _currentUser != null;
+  bool get useMockBackend => _useMockBackend;
 
   bool _isInitialized = false;
 

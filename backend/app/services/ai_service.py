@@ -207,3 +207,72 @@ class AIService:
         except Exception as e:
             logger.error(f"Error in analyze_incident_report: {str(e)}")
             return {"error": str(e)}
+
+    def detect_spam_and_duplicate(self, new_report: Dict, nearby_reports: List[Dict]) -> Dict:
+        """Run AI duplicate and spam detection for safety reports"""
+        try:
+            # Basic local text preprocessing & checking for simple rule fallback
+            desc = new_report.get('description', '').strip().lower()
+            
+            # Local Spam Rules Check
+            spam_keywords = ['buy', 'click here', 'promo', 'discount', 'free money', 'test report', 'asdf', 'qwerty', 'testing 123']
+            is_local_spam = len(desc) < 10 or any(kw in desc for kw in spam_keywords)
+            
+            # Local Duplicate Check (within 200m and same category, last 24 hours)
+            is_local_duplicate = False
+            duplicate_id = None
+            for rep in nearby_reports:
+                # Same category/type
+                if rep.get('incident_type', '').lower() == new_report.get('incident_type', '').lower():
+                    # Proximity check
+                    lat_diff = abs(float(rep.get('latitude', 0)) - float(new_report.get('latitude', 0)))
+                    lng_diff = abs(float(rep.get('longitude', 0)) - float(new_report.get('longitude', 0)))
+                    if lat_diff < 0.002 and lng_diff < 0.002: # roughly 200m
+                        # Word overlap or exact match
+                        old_desc = rep.get('description', '').lower()
+                        if desc == old_desc or (len(desc) > 20 and old_desc in desc) or (len(old_desc) > 20 and desc in old_desc):
+                            is_local_duplicate = True
+                            duplicate_id = rep.get('id')
+                            break
+
+            # AI API Analysis
+            nearby_list = [{"id": r.get("id"), "description": r.get("description"), "lat": r.get("latitude"), "lng": r.get("longitude")} for r in nearby_reports[:5]]
+            
+            prompt = f"""
+            Analyze the following new incident report for spam, vulgarity, or if it is a duplicate of any recent nearby reports.
+            
+            New Report:
+            - Category: {new_report.get('incident_type')}
+            - Description: "{new_report.get('description')}"
+            - Coordinates: ({new_report.get('latitude')}, {new_report.get('longitude')})
+            
+            Recent Nearby Reports:
+            {json.dumps(nearby_list)}
+            
+            Determine:
+            1. If the new report is SPAM (meaningless, gibberish, promotional, testing, or irrelevant text).
+            2. If the new report is a DUPLICATE of an already reported nearby incident (describes the exact same specific event at the exact same location).
+            
+            Return a JSON object ONLY, with fields:
+            - is_spam (boolean)
+            - is_duplicate (boolean)
+            - duplicate_report_id (string or null, matching the nearby report id if it's a duplicate)
+            - confidence_score (number between 0 and 100)
+            - reason (string explaining the decision)
+            """
+            
+            response = self.model.generate_content(prompt)
+            # Remove markdown wraps if any
+            clean_text = response.text.replace('```json', '').replace('```', '').strip()
+            result = json.loads(clean_text)
+            return result
+        except Exception as e:
+            logger.error(f"Error in detect_spam_and_duplicate: {str(e)}")
+            # Fallback to local rule-based results if AI fails or key not config
+            return {
+                "is_spam": is_local_spam,
+                "is_duplicate": is_local_duplicate,
+                "duplicate_report_id": duplicate_id,
+                "confidence_score": 90 if (is_local_spam or is_local_duplicate) else 50,
+                "reason": "AI engine offline. SafeSphere rule-based safety screening applied."
+            }

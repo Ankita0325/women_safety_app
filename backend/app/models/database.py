@@ -49,6 +49,15 @@ class IncidentReportDB(Base):
     images = Column(JSON, default=[])
     timestamp = Column(DateTime, default=datetime.now)
     user_id = Column(String(50))
+    
+    # Heatmap integration additions
+    status = Column(String(20), default='pending')  # pending, verified, rejected
+    upvotes = Column(Integer, default=0)
+    downvotes = Column(Integer, default=0)
+    expires_at = Column(DateTime)
+    category = Column(String(50), default='Harassment')
+    safety_score = Column(Integer, default=100)
+    ai_analysis = Column(JSON, default={})
 
 class SafetyRoute(Base):
     __tablename__ = 'safety_routes'
