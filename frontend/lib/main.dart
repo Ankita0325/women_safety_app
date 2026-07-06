@@ -1,3 +1,5 @@
+// lib/main.dart
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,6 +15,7 @@ import 'services/route_service.dart';
 
 // Import screens
 import 'screen/splash_screen.dart';
+import 'screen/onboarding_screen.dart';
 import 'screen/home_screen.dart';
 import 'screen/login_screen.dart';
 import 'screen/register_screen.dart';
@@ -57,8 +60,9 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => const SplashScreen(),
-          '/home': (context) => const HomeScreen(),
+          '/onboarding': (context) => const OnboardingScreen(),
           '/login': (context) => const LoginScreen(),
+          '/home': (context) => const HomeScreen(),
           '/register': (context) => const RegisterScreen(),
           '/emergency': (context) => const EmergencyScreen(),
           '/heatmap': (context) => const HeatmapScreen(),
