@@ -117,10 +117,6 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
                       const SizedBox(height: 20),
                       _buildRegisterButton(authService),
                       const SizedBox(height: 20),
-                      _buildDivider(),
-                      const SizedBox(height: 16),
-                      _buildSocialRegister(),
-                      const SizedBox(height: 20),
                       _buildFooter(),
                     ],
                   ),
@@ -700,96 +696,6 @@ class _RegisterScreenState extends State<RegisterScreen> with TickerProviderStat
                   letterSpacing: 1,
                 ),
               ),
-      ),
-    );
-  }
-
-  Widget _buildDivider() {
-    return Row(
-      children: [
-        Expanded(
-          child: Divider(
-            color: secondaryText.withOpacity(0.2),
-            thickness: 1,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            'or sign up with',
-            style: TextStyle(
-              color: secondaryText,
-              fontSize: 12,
-            ),
-          ),
-        ),
-        Expanded(
-          child: Divider(
-            color: secondaryText.withOpacity(0.2),
-            thickness: 1,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSocialRegister() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _buildSocialButton(
-          icon: Icons.g_mobiledata,
-          label: 'Google',
-          color: Colors.red,
-        ),
-        const SizedBox(width: 12),
-        _buildSocialButton(
-          icon: Icons.facebook,
-          label: 'Facebook',
-          color: const Color(0xFF1877F2),
-        ),
-        const SizedBox(width: 12),
-        _buildSocialButton(
-          icon: Icons.apple,
-          label: 'Apple',
-          color: Colors.white,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSocialButton({
-    required IconData icon,
-    required String label,
-    required Color color,
-  }) {
-    return Expanded(
-      child: OutlinedButton(
-        onPressed: () {
-          // Social registration logic
-        },
-        style: OutlinedButton.styleFrom(
-          foregroundColor: primaryText,
-          side: BorderSide(color: secondaryText.withOpacity(0.15)),
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: color, size: 20),
-            const SizedBox(width: 6),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
